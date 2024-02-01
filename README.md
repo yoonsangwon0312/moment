@@ -36,7 +36,6 @@ $ npm install -g ts-node typescirpt
 ## Running the app
 
 ```bash
-$ tsc --module commonjs app.config.js
 $ pm2 start app.config.js
 ```
 
