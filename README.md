@@ -30,19 +30,14 @@
 
 ```bash
 $ npm install
+$ npm install -g ts-node typescirpt
 ```
 
 ## Running the app
 
 ```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
+$ tsc --module commonjs app.config.js
+$ pm2 start app.config.js
 ```
 
 ## Test
