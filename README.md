@@ -29,14 +29,18 @@
 ## Installation
 
 ```bash
+
 $ npm install
 $ npm install -g ts-node typescirpt
+
 ```
 
 ## Running the app
 
 ```bash
+
 $ pm2 start app.config.js
+
 ```
 
 ## Test
