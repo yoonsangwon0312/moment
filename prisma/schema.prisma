@@ -11,3 +11,28 @@ datasource db {
 }
 
 
+model user {
+  idx Int @default(autoincrement()) @id // @default = 기본값 지정
+  name String
+  passwd String
+  sex String
+  createDate DateTime @default(now())
+  updateDate DateTime
+}
+
+model moment {
+  idx Int @default(autoincrement()) @id // default = 기본값 지정
+  uIdx Int
+  pIdx Int
+  moment String
+  createDate DateTime @default(now())
+  updateDate DateTime
+}
+
+model post {
+  idx Int @default(autoincrement()) @id // default = 기본값 지정
+  uIdx Int
+  post String
+  createDate DateTime @default(now())
+  updateDate DateTime
+}
