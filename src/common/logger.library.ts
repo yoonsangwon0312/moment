@@ -1,40 +1,31 @@
-import { Logger } from '@nestjs/common';
-import winston from 'winston';
-import winstonDaily from 'winston-daily-rotate-file';
+import { ConsoleLogger } from '@nestjs/common';
+import { format } from 'winston';
+const { createLogger, transports } = require('winston');
+const { DailyRotateFile } = require('winston-daily-rotate-file');
 
-export class LoggerLibrary extends Logger {
-    log(message: string) {
+export class LoggerLibrary extends ConsoleLogger {
+    warn(message: string) {
         /* your implementation */
-        logger.info(message);
-        super.log(message);
+        logger.warn(message);
+        super.warn(message);
     }
     error(message: string, trace: any) {
         /* your implementation */
         logger.error(message, trace);
         super.error(message);
     }
-    warn(message: string) {
-        /* your implementation */
-        logger.warn(message);
-        super.warn(message);
-    }
     debug(message: string) {
         /* your implementation */
         logger.debug(message);
         super.debug(message);
     }
-    verbose(message: string) {
-        /* your implementation */
-        logger.verbose(message);
-        super.verbose(message);
-    }
 }
 
-const { combine, timestamp, printf, prettyPrint } = winston.format;
+const { combine, timestamp, printf, prettyPrint } = format;
 const logFormat = printf((info) => {
     return `${info.timestamp} ${info.level}: ${info.message}`;
 });
-const logger = winston.createLogger({
+const logger = createLogger({
     format: combine(
         timestamp({
             format: 'YYYY-MM-DD HH:mm:ss',
@@ -43,21 +34,32 @@ const logger = winston.createLogger({
         prettyPrint(),
     ),
     transports: [
-        // info 레벨 로그를 저장할 파일 설정
-        // new winstonDaily({
-        //     level: 'info',
-        //     datePattern: 'YYYY-MM-DD',
-        //     dirname: 'logs',
-        //     filename: `%DATE%.log`,
-        //     maxFiles: 30, // 30일치 로그 파일 저장
-        //     zippedArchive: true,
-        // }),
         // error 레벨 로그를 저장할 파일 설정
-        new winstonDaily({
+        new transports.DailyRotateFile({
             level: 'error',
             datePattern: 'YYYY-MM-DD',
             dirname: 'logs/error', // error.log 파일은 /logs/error 하위에 저장
             filename: `%DATE%.error.log`,
+            maxFiles: 30,
+            zippedArchive: true,
+        }),
+
+        // warn 레벨 로그를 저장할 파일 설정
+        new transports.DailyRotateFile({
+            level: 'warn',
+            datePattern: 'YYYY-MM-DD',
+            dirname: 'logs/warn',
+            filename: `%DATE%.warn.log`,
+            maxFiles: 30,
+            zippedArchive: true,
+        }),
+
+        // debug 레벨 로그를 저장할 파일 설정
+        new transports.DailyRotateFile({
+            level: 'debug',
+            datePattern: 'YYYY-MM-DD',
+            dirname: 'logs/debug',
+            filename: `%DATE%.debug.log`,
             maxFiles: 30,
             zippedArchive: true,
         }),
